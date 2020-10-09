@@ -80,8 +80,80 @@ public class Loja {
     }
 
     public String dadosLoja() {
-		// Implemente aqui
-		return null;
+
+        validarCamposObrigatorios();
+
+		String _NUMERO = "s/n";
+		if (this.getNumero() > 0){
+			_NUMERO = Integer.toString(this.getNumero());
+		}
+		
+		String _COMPLEMENTO = "";
+		if (!isEmpty(this.getComplemento())){
+			_COMPLEMENTO = " " + this.getComplemento();
+		}
+	
+		String _BAIRRO = "";
+		if(!isEmpty(this.getBairro())){
+			_BAIRRO = this.getBairro() + " - " ;
+		}
+	
+		String _CEP = "";
+		if(!isEmpty(this.getCep())){
+			_CEP = "CEP:" + this.getCep();
+		}
+		
+		String _TELEFONE = "";
+		if(!isEmpty(this.getTelefone())){
+			_TELEFONE = "Tel " + this.getTelefone();
+
+			if(!isEmpty(this.getCep())){
+				_TELEFONE = " " + _TELEFONE;
+			}
+		}		
+	
+		String _OBSERVACAO = "";
+		if (!isEmpty(this.getObservacao())){
+			_OBSERVACAO = this.getObservacao();
+		}
+
+		String BREAK = System.lineSeparator();
+
+		String nota = String.format("%s",this.getNomeLoja()) + BREAK;
+		nota += String.format("%s, %s%s",this.getLogradouro(),_NUMERO,_COMPLEMENTO) + BREAK;
+		nota += String.format("%s%s - %s",_BAIRRO,this.getMunicipio(),this.getEstado()) + BREAK;
+		nota += String.format("%s%s",_CEP,_TELEFONE) + BREAK;
+		nota += String.format("%s",_OBSERVACAO) + BREAK;
+		nota += String.format("CNPJ: %s",this.getCnpj()) + BREAK;
+		nota += String.format("IE: %s",this.getInscricaoEstadual()) + BREAK;
+	
+        return nota;
+    }
+
+    public void validarCamposObrigatorios(){
+        if (isEmpty(this.getNomeLoja())) {
+			throw new RuntimeException("O campo nome da loja é obrigatório");		
+		}
+		if (isEmpty(this.getLogradouro())){
+			throw new RuntimeException("O campo logradouro do endereço é obrigatório");
+		}		
+		if (isEmpty(this.getMunicipio())){
+			throw new RuntimeException("O campo município do endereço é obrigatório");
+		}
+		if (isEmpty(this.getEstado())){
+			throw new RuntimeException("O campo estado do endereço é obrigatório");
+		} 
+		if (isEmpty(this.getCnpj())){
+			throw new RuntimeException("O campo CNPJ da loja é obrigatório");
+		} 
+		if (isEmpty(this.getInscricaoEstadual())){
+			throw new RuntimeException("O campo inscrição estadual da loja é obrigatório");
+		}
+    }
+    private static boolean isEmpty(String s){
+		if (s == null) return true;
+		if (s.equals("")) return true;
+		return false;
 	}
 
 }
